@@ -28,17 +28,17 @@ DELETE | http://127.0.0.1:8000/api/user/{id}
 ___
 
 ## PostMan - Testes Realizados
-[x] Listar todos os usuários
-[x] Listar 1 usuário
-[x] Cadastrar usuário
-[x] Tentar cadastrar com o mesmo nome e email de outro usuário
-[x] Tentar cadastrar com o mesmo nome de outro usuário
-[x] Tentar cadastrar com o mesmo email de outro usuário
-[x] Editar usuário
-[x] Tentar editar o usuário com o mesmo nome e email de outro usuário
-[x] Tentar editar o usuário com o mesmo nome de outro usuário
-[x] Tentar editar o usuário com o mesmo email de outro usuário
-[x] Excluir usuário
+- [x] Listar todos os usuários
+- [x] Listar 1 usuário
+- [x] Cadastrar usuário
+- [x] Tentar cadastrar com o mesmo nome e email de outro usuário
+- [x] Tentar cadastrar com o mesmo nome de outro usuário
+- [x] Tentar cadastrar com o mesmo email de outro usuário
+- [x] Editar usuário
+- [x] Tentar editar o usuário com o mesmo nome e email de outro usuário
+- [x] Tentar editar o usuário com o mesmo nome de outro usuário
+- [x] Tentar editar o usuário com o mesmo email de outro usuário
+- [x] Excluir usuário
 ___
 
 ## Validações (Migration User)
