@@ -1,64 +1,140 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Laravel
+____
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Instalação
+1. Criar uma pasta e entrar nela (mkdir NomePasta && cd NomePasta)
+2. git clone --branch master https://github.com/eric-kennedy-developer/WedClub-Laravel.git
+3. Rodar o XAMPP
+4. Abrir o projeto no VS Code
+5. Abra o terminal e rode o comando: composer install
+6. Em seguida, renomeie o arquivo ".env.example" para ".env" e não esqueça de preencher os dados para conectar com o banco de dados.
+7. Volte para o terminal e rode o comando: php artisan key:generate
+8. Abra o Mysql no seu computador e crie o banco de dados que você configurou no arquivo .env
+9. Agora vamos criar as tabelas, rode o comando: php artisan migrate
+10. php artisan db:seed --class=UserSeeder
+11. php artisan serve
+12. Aquela testada básica: abra o link "http://127.0.0.1:8000/api/users" no seu navegador, terá que aparecer 11 registros.
+13. Agora é só deixar o servidor ativo e testar o CRUD no Jquery e React
+___
 
-## About Laravel
+## EndPoints
+Method | URL
+------------ | -------------
+GET | http://127.0.0.1:8000/api/users
+GET | http://127.0.0.1:8000/api/users/{id}
+POST | http://127.0.0.1:8000/api/user
+PUT | http://127.0.0.1:8000/api/user/{id}
+DELETE | http://127.0.0.1:8000/api/user/{id}
+___
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## PostMan - Testes Realizados
+[x] Listar todos os usuários
+[x] Listar 1 usuário
+[x] Cadastrar usuário
+[x] Tentar cadastrar com o mesmo nome e email de outro usuário
+[x] Tentar cadastrar com o mesmo nome de outro usuário
+[x] Tentar cadastrar com o mesmo email de outro usuário
+[x] Editar usuário
+[x] Tentar editar o usuário com o mesmo nome e email de outro usuário
+[x] Tentar editar o usuário com o mesmo nome de outro usuário
+[x] Tentar editar o usuário com o mesmo email de outro usuário
+[x] Excluir usuário
+___
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Validações (Migration User)
+Essa validação garante que não terá registros duplicados no banco de dados.
+```
+// create_user_table
+name->unique();
+email->unique();
+foto_perfil->unique();
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+___
 
-## Learning Laravel
+## Validações com tratamento de erro e function failedValidation (UserRequest)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+#### Validações
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```
+'name' => ['required', 'unique:users'];
+'email' => ['required', 'unique:users', 'email'];
+'foto_perfil' => ['required', 'unique:users', 'image', 'mimes:jpg,jpeg,png', 'max:2048'];
+'password' => ['required'];
+```
 
-## Laravel Sponsors
+#### Tratamento de erro
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+```
+'name.required' => 'Campo name obrigatório.';
+'name.unique' => 'Campo name já cadastrado.';
+'email.required' => 'Campo email obrigatório.';
+'email.unique' => 'Campo email já cadastrado.';
+'email.email' => 'Campo email precisa ser um email válido.';
+'foto_perfil.required' => 'Campo foto_perfil obrigatório.';
+'foto_perfil.unique' => 'Campo foto_perfil já cadastrado.';
+'foto_perfil.image' => 'Campo foto_perfil precisa ser uma imagem';
+'foto_perfil.mimes' => 'Campo foto_perfil precisa ser uma imagem jpg, jpeg ou png';
+'foto_perfil.max' => 'Campo foto_perfil precisa ter até 2048 KB';
+'password.required' => 'Campo password obrigatório.';
+```
 
-### Premium Partners
+####  function failedValidation
+```
+response()->json($validator->errors(), 422)
+```
+___
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[CMS Max](https://www.cmsmax.com/)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
+## Validações com tratamento de erro e function failedValidation (UserUpdateRequest)
 
-## Contributing
+#### Validações
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```
+'name' => ['required'];
+'email' => ['required', 'email'];
+'foto_perfil' => ['required', 'image', 'mimes:jpg,jpeg,png', 'max:2048'];
+'password' => ['required'];
+```
 
-## Code of Conduct
+#### Tratamento de erro
+```
+'name.required' => 'Campo name obrigatório.'
+'email.required' => 'Campo email obrigatório.'
+'email.email' => 'Campo email precisa ser um email válido.'
+'foto_perfil.required' => 'Campo foto_perfil obrigatório.'
+'foto_perfil.image' => 'Campo foto_perfil precisa ser uma imagem'
+'foto_perfil.mimes' => 'Campo foto_perfil precisa ser uma imagem jpg, jpeg ou png'
+'foto_perfil.max' => 'Campo foto_perfil precisa ter até 2048 KB'
+'password.required' => 'Campo password obrigatório.'
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+#### function failedValidation
+```
+response()->json($validator->errors(), 422)
+```
 
-## Security Vulnerabilities
+___
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Password
+#### Adicionei a função Hash para melhorar na segurança do sistema
+```
+$User->password = Hash::make($request->password);
+```
+___
 
-## License
+## UserResource
+```
+'id' => $this->id
+'name' => $this->name
+'email' => $this->email
+'foto_perfil' => $this->foto_perfil
+```
+___
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Image Resize e Qualidade (intervention/image)
+```
+$image = $request->file('foto_perfil');
+$input['imagename'] = md5(time()).'.'.$image->extension();
+$filePath = public_path('/profile');
+$img = Image::make($image->path())->resize(200, 200); // 200 x 200 tamanho da imagem
+$img->save($filePath.'/'.$input['imagename'], 70); // 70% da qualidade
